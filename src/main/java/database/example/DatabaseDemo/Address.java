@@ -1,9 +1,6 @@
 package database.example.DatabaseDemo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Address{
@@ -13,9 +10,20 @@ public class Address{
     private String city;
     private String street;
     private String postalCode;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Person person;
+
+
 
     public Address() {
     }
+
+    public Address(String city, String street, String postalCode) {
+        this.city = city;
+        this.street = street;
+        this.postalCode = postalCode;
+    }
+
 
     public Long getId() {
         return id;
