@@ -16,6 +16,17 @@ public class Address{
     @OneToMany(mappedBy = "address", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<Person> personList = new ArrayList<>();
 
+    public List<Person> getPersonList() {
+        return personList;
+    }
+
+    public void setPersonList(List<Person> personList) {
+        this.personList = personList;
+    }
+    public void addPerson(Person person){
+        personList.add(person);
+    }
+
     public Address(String city, String street, String postalCode) {
         this.city = city;
         this.street = street;
@@ -63,11 +74,11 @@ public class Address{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(postalCode, address.postalCode);
+        return Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(postalCode, address.postalCode) && Objects.equals(personList, address.personList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(city, street, postalCode);
+        return Objects.hash(city, street, postalCode, personList);
     }
 }
