@@ -1,6 +1,8 @@
 package database.example.DatabaseDemo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +13,8 @@ public class Address{
     private String city;
     private String street;
     private String postalCode;
+    @OneToMany(mappedBy = "address", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<Person> personList = new ArrayList<>();
 
     public Address(String city, String street, String postalCode) {
         this.city = city;
