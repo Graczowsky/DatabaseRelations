@@ -19,28 +19,29 @@ class OneToManyTest {
 
     @Test
     void shouldCheckIfAddressCanHaveManyPeople(){
-        //given
 
-        final Address address= new Address("Chorzów","Przyjemna","41-500");
-         Person person1= new Person( "Damian", "Petrus") ;
-         Person person2= new Person( "Katarzyna", "Petrus") ;
-         Person person3= new Person( "Wojtek", "Petrus") ;
-         Person person4= new Person( "Jan", "Petrus") ;
-
-        address.addPerson(person1);
-        address.addPerson(person2);
-        address.addPerson(person3);
-        address.addPerson(person4);
-
-        addressRepository.save(address);
-
-        assertThat(address.getPerson().contains(person1)).isTrue();
-        assertThat(address.getPerson().contains(person2)).isTrue();
-        assertThat(address.getPerson().contains(person3)).isTrue();
-        assertThat(address.getPerson().contains(person4)).isTrue();
-
-        //then
+            Address address = new Address("Katowice", "Sławka", "40-833");
+            Person person = new Person("Dawid", "Jamka");
+            Person person2 = new Person("Damian", "Petrus");
+            Person person3 = new Person("Marcin", "Butora");
+            address.addPerson(person);
+            address.addPerson(person2);
+            address.addPerson(person3);
+            addressRepository.save(address);
+            assertThat(address.getPerson().contains(person)).isTrue();
 
 
-    }
-}
+            Address foundAddress = addressRepository.findById(address.getId()).get();
+            assertThat(foundAddress.getPerson().contains(person));
+            assertThat(foundAddress.getPerson().contains(person2));
+            assertThat(foundAddress.getPerson().contains(person3));
+
+
+            Person foundPerson = foundAddress.getPerson().stream()
+                    .filter(f -> f.getFirstName().equals("Dawid")&&f.getLastName().equals("Jamka"))
+                    .findFirst().get();
+            foundPerson.setFirstName("Daniel");
+            addressRepository.save(address);
+            assertThat(personRepository.findPersonByFirstNameAndLastName("Dawid", "Jamka")).isEmpty();
+            assertThat(personRepository.findPersonByFirstNameAndLastName("Daniel", "Jamka")).isPresent();
+        }}

@@ -3,6 +3,7 @@ package database.example.DatabaseDemo;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Address{
@@ -12,10 +13,18 @@ public class Address{
     private String city;
     private String street;
     private String postalCode;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Person> personList= new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    private List<Person> personList = new ArrayList<>();
 
-    public Address() {
+    public List<Person> getPerson() {
+        return personList;
+    }
+    public void addPerson(Person person) {
+        personList.add(person);
+    }
+
+    public void setPerson(List<Person> personList) {
+        this.personList = personList;
     }
 
     public Address(String city, String street, String postalCode) {
@@ -23,9 +32,11 @@ public class Address{
         this.street = street;
         this.postalCode = postalCode;
     }
-    public void addPerson(Person person){
-        personList.add(person);
+
+    public Address() {
     }
+
+
     public Long getId() {
         return id;
     }
@@ -58,15 +69,16 @@ public class Address{
         this.postalCode = postalCode;
     }
 
-    public List<Person> getPerson() {
-        return personList;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(postalCode, address.postalCode);
     }
 
-    public void setPerson(Person person) {
-        this.personList = personList;
-    }
-
-    public void setPerson(List<Person> person) {
-        this.personList = personList;
+    @Override
+    public int hashCode() {
+        return Objects.hash(city, street, postalCode);
     }
 }
