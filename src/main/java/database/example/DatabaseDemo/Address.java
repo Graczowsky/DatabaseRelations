@@ -1,9 +1,8 @@
 package database.example.DatabaseDemo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Address{
@@ -13,10 +12,20 @@ public class Address{
     private String city;
     private String street;
     private String postalCode;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Person> personList= new ArrayList<>();
 
     public Address() {
     }
 
+    public Address(String city, String street, String postalCode) {
+        this.city = city;
+        this.street = street;
+        this.postalCode = postalCode;
+    }
+    public void addPerson(Person person){
+        personList.add(person);
+    }
     public Long getId() {
         return id;
     }
@@ -47,5 +56,17 @@ public class Address{
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public List<Person> getPerson() {
+        return personList;
+    }
+
+    public void setPerson(Person person) {
+        this.personList = personList;
+    }
+
+    public void setPerson(List<Person> person) {
+        this.personList = personList;
     }
 }
