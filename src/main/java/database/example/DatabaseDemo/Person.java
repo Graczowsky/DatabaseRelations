@@ -9,8 +9,6 @@ public class Person{
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Address address;
 
     public Person(String firstName, String lastName, Address address) {
         this.firstName = firstName;
