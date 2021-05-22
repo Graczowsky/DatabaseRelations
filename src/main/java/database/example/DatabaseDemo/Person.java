@@ -1,6 +1,7 @@
 package database.example.DatabaseDemo;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Person{
@@ -9,7 +10,7 @@ public class Person{
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     private Address address;
 
     public Person(String firstName, String lastName, Address address) {

@@ -11,11 +11,27 @@ public class Address{
     private String city;
     private String street;
     private String postalCode;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Person person;
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
     public Address(String city, String street, String postalCode) {
         this.city = city;
         this.street = street;
         this.postalCode = postalCode;
+    }
+    public Address(String city, String street, String postalCode, Person person) {
+        this.city = city;
+        this.street = street;
+        this.postalCode = postalCode;
+        this.person = person;
     }
 
     public Address() {
@@ -54,16 +70,4 @@ public class Address{
         this.postalCode = postalCode;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(postalCode, address.postalCode);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(city, street, postalCode);
-    }
-}
