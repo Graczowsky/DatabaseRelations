@@ -1,9 +1,7 @@
 package database.example.DatabaseDemo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Address{
@@ -14,8 +12,15 @@ public class Address{
     private String street;
     private String postalCode;
 
+    public Address(String city, String street, String postalCode) {
+        this.city = city;
+        this.street = street;
+        this.postalCode = postalCode;
+    }
+
     public Address() {
     }
+
 
     public Long getId() {
         return id;
@@ -47,5 +52,18 @@ public class Address{
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(postalCode, address.postalCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(city, street, postalCode);
     }
 }
